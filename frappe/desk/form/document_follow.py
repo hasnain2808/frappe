@@ -64,11 +64,14 @@ def get_message(doc_name, doctype, frequency, user):
 	return sorted(activity_list, key=lambda k: k["time"], reverse=True)
 
 def send_email_alert(receiver, docinfo, timeline):
+	# Setting the reference_doctype as user and the reference_name as user since the document follow is linked per user
 	if receiver:
 		frappe.sendmail(
 			subject=_("Document Follow Notification"),
 			recipients=[receiver],
 			template="document_follow",
+			reference_doctype="User",
+			reference_name=receiver,
 			args={
 				"docinfo": docinfo,
 				"timeline": timeline,
